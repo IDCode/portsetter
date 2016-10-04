@@ -8,7 +8,6 @@
         
         alias setport="./portsetter.cpp.o"
 5. restart your terminal
-
 From now on you should be able to simply type "setport -flag [PORT]..." into terminal.
 
 
@@ -17,6 +16,7 @@ From now on you should be able to simply type "setport -flag [PORT]..." into ter
 **========= How to run the test program =========**
 
 tests.cpp will run over hardcoded tests, it may not cover everything but it covers a large portion.
+
 Expected output is as such...
 
 
