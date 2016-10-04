@@ -1,5 +1,5 @@
 # portsetter
-========= How to set up an portsetter alias =========
+**========= How to set up a portsetter alias =========**
 
 1. nagivate to your /home directory (use cd .. or ..)
 2. type ls -a (to list all files in the directory)
@@ -11,7 +11,8 @@
 From now on you should be able to simply type "setport -flag [PORT]..." into terminal.
 
 
-========= How to run the test program =========
+
+**========= How to run the test program =========**
 
 Simply run tests.cpp...
 Expected output is as such...
