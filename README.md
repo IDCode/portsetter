@@ -8,6 +8,7 @@
         
         alias setport="./portsetter.cpp.o"
 5. restart your terminal
+
 From now on you should be able to simply type "setport -flag [PORT]..." into terminal.
 
 
