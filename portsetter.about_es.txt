@@ -1,0 +1,5 @@
+Acerca del archivo
+            -!, --unos
+    
+Se trata de un ampliable, comprobable comandos Linux y creador de alias.
+Este código fuente es cambiable y distribuible.

@@ -1,0 +1,5 @@
+About file
+           -!, --about
+
+This is an expandable, testable Linux command and alias creator.
+This source code is changable and distributable.
