@@ -4,6 +4,7 @@
 2. type ls -a OR ls -al (to list all files in the directory)
 3. click on .bash_aliases and select "open"
 4. append the setport alias as such
+        
         alias setport="./portsetter.cpp.o"
 5. restart your terminal
 
