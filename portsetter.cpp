@@ -3,18 +3,12 @@
 #include <string>
 #include <stdlib.h>
 using namespace std;
-// TODO: simplify printing?
-// change environment to accept a custom port variable
 
-// look through all files and revise if nessessary /w 
-// finalize
-// submit
-
-void print(string file_type)
+void print(string file_name)
 {
 	string output;
 	ifstream infile; // english	
-	infile.open(file_type);
+	infile.open(file_name);
 	if (infile.is_open()) {
 		while (!infile.eof()) {
 			if (infile.peek() == '\n')  
@@ -25,29 +19,21 @@ void print(string file_type)
 	}
 	infile.close();
 }
+
 void about(int lang)
 {
-	if (lang == 1) {
+	if (lang == 1) 
 		print("portsetter.about_en.txt");
-	}
-	else if (lang == -1) {
+	else if (lang == -1)
 		print("portsetter.about_es.txt");
-	}
 }
 
 void usage(int lang)
 {	
-	/* // hardcoded
-	cout << "Usage: -p, --port [PORT NUMBER]...\n" << endl;
-	cout << "\tOPTIONS:\n\t--port " <<
-			"\n\t\tOR\n\t-p\n" << "Listen on a port between 0 and 65536" << endl;
-	*/
-	if (lang == 1) {
+	if (lang == 1)
 		print("portsetter.usage_en.txt");
-	}
-	else if (lang == -1) { // spanish
+	else if (lang == -1)
 		print("portsetter.usage_es.txt");
-	}
 }
 
 enum {
@@ -58,6 +44,7 @@ enum {
 	NO_FLAG, // "error: no arguments given...   return 0"
 	INVALID_PORT, // "error: invalid port...  return 1"
 	INVALID_FLAG, // "error: invalid flag...   return 1"
+	VERSION,
 };
 
 string en[] = {
@@ -67,7 +54,8 @@ string en[] = {
 	"error: no port given...   return 1",
 	"error: no arguments given...   return 0",
 	"error: invalid port...  return 1",
-	"error: invalid flag...   return 1"
+	"error: invalid flag...   return 1",
+	"\nportsetter.v_2.1"
 };
 
 string es[] = {
@@ -78,42 +66,49 @@ string es[] = {
 	"Error: no hay argumentos dados ... volver 0",
 	"Error: puerto no válido ... volver 1",
 	"Error: El indicador no válido ... volver 1"
+	"\nportsetter.v_2.1"
 };
+
+const int MIN_PORT = 1, MAX_PORT = 65536,
+		  MY_PORT = 9999, YOUR_PORT = 1111;
 
 int main(int argc, char *args[])
 {
-	const int MIN_PORT = 0, MAX_PORT = 65536; // I know we don't usually put this here but I am doing it anyway
-	
+	string type_get, env_get; // flag, env
+	char* def_env = getenv("PORT");
+	int port;
+
 	string* msg = en; // defualt
 	int lang = 1; // default
 	char* locale = getenv("LANGUAGE");
-	if (locale == "es" || locale == "es.MX" || locale == "es.UTF-8" || locale == "es.MX.UTF-8") {
+	
+	if (locale == "es.MX" || locale == "es.UTF-8" || locale == "es.MX.UTF-8") {
 		lang = -1;
 		msg = es;
 	}
-	else {
-		cout << "Language defaulting to english." << endl;
-	}
+	//else {
+	//	cout << "Language defaulting to english." << endl;
+	//}
 	
-	for (int i = argc - 1; i > 0; i--) // -1 because don't want ./file
+	for (int i = argc - 1; i > 0; i--)
 	{	
-		if (argc >= 4) { // check for more than four (exceeds possible limit)
-		    cout << msg[EXCEED_LIMIT] << endl;
+		if (argc >= 4) { // exceeds limit
+		    cout << msg[EXCEED_LIMIT] << endl; 
 			usage(lang);
 			return 1;
 		}
-		else if (argc == 3) { // check for 3
-			string type_get = string(args[1]);
-			char* def_port = args[2];
-			int port = atoi(args[2]);
-			
-			if (def_port == (string)"-e") {
-					 def_port = getenv("PORT");
-					 cout << msg[DEFAULT_PORT] << def_port << endl;
+		else if (argc == 3) { // check for 3 - validate and process port
+			type_get = string(args[1]); // flag, env
+			env_get = string(args[2]);
+		
+			if (env_get == "-e") {
+					 cout << msg[DEFAULT_PORT] << def_env << endl;
 					 return 0;
 			}
-			// correct flag and within port range
-			if (type_get == "--port" || type_get == "-p" && port > MIN_PORT && port <= MAX_PORT) {
+			
+			port = atoi(args[2]);
+			if (type_get == "--port" || type_get == "-p" // within port range - set
+			&& port > MIN_PORT && port <= MAX_PORT) {
 					cout << msg[SET_PORT] << port << endl;
 					return 0;
 			}
@@ -123,23 +118,23 @@ int main(int argc, char *args[])
 				return 1;
 			}
 		}
-		if (argc == 2) { // check for 2
-			string type_get = string(args[1]);
-
+		else if (argc == 2) { // check for 2 - valid flag input
+			type_get = string(args[1]); // flag
+			
 			if (type_get == "--about" || type_get == "-!") {
 				about(lang);
 				return 0;
 			}
 			else if (type_get == "--version" || type_get == "-v") {
-				cout << "v_1.2.3" << endl;
+				cout << msg[VERSION] << endl;
 				return 0;
 			}
-			else if (type_get == "--help" || type_get == "-h" || type_get== "-?") {
+			else if (type_get == "--help" || type_get == "-h" || type_get == "-?") {
 				usage(lang);
 				return 0;
 			}
-			else if (type_get == "--port" || type_get == "-p") {  // error no port given
-			    cout << msg[NO_PORT] << endl;
+			else if (type_get == "--port" || type_get == "-p") { // no port given
+			    cout << msg[NO_PORT] << endl; 
 				usage(lang);
 			    return 1;
 			}
