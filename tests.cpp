@@ -1,8 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
-// Yes, I agree that this is a filthy way to test multiple things, but 
-// it works.
+
 int main()
 {
     char* locale = getenv("LANGUAGE");
@@ -27,16 +26,36 @@ int main()
     if (statusCode != 0) {
        cout << "\nPASS 5... --port 30 (print port)\n" << endl;
     }
+      statusCode = system("./portsetter -?") / 256;
+    if (statusCode != 0) {
+       cout << "\nPASS 6... -? (print usage)\n" << endl;
+    }
+    statusCode = system("./portsetter -!") / 256;
+    if (statusCode != 0) {
+       cout << "\nPASS 7... -! (print about)\n" << endl;
+    }
+    statusCode = system("./portsetter --about") / 256;
+    if (statusCode != 0) {
+       cout << "\nPASS 8... --about (print about)\n" << endl;
+    }
+    statusCode = system("./portsetter -v") / 256;
+    if (statusCode != 0) {
+       cout << "\nPASS 9... --about (print version)\n" << endl;
+    }
+        statusCode = system("./portsetter --version") / 256;
+    if (statusCode != 0) {
+       cout << "\nPASS 10... --about (print version)\n" << endl;
+    }
     
     // Negative Tests
     statusCode = system("./portsetter help") / 256;
     if (statusCode != 0) {
-       cout << "\nFAIL TEST 1... help (flag incorrectly spelt)\n" << endl;
+       cout << "\nFAIL TEST 1... help (flag incorrectly spelled)\n" << endl;
     }
     
     statusCode = system("./portsetter -help") / 256;
     if (statusCode != 0) {
-       cout << "\nFAIL TEST 2... -help (flag incorrectly spelt)\n" << endl;
+       cout << "\nFAIL TEST 2... -help (flag incorrectly spelled)\n" << endl;
     }
     
     statusCode = system("./portsetter --h") / 256;
@@ -93,12 +112,17 @@ int main()
     if (statusCode != 0) {
        cout << "\nFAIL TEST 13... -P 714 (invalid flag)\n" << endl;
     }
+    
+    statusCode = system("./portsetter -P 714") / 256;
+    if (statusCode != 0) {
+       cout << "\nFAIL TEST 14... -P 714 (invalid flag)\n" << endl;
+    }
+    
     // Spanish check
-    if (locale == "es" || locale == "es.MX" || locale == "es.UTF-8" || locale == "es.MX.UTF-8") {
+    if (locale == "es.MX" || locale == "es.UTF-8" || locale == "es.MX.UTF-8") {
 		cout << "PASS TEST - Spanish found..." << endl;
 	}
 	else {
-	    cout << "FAIL TEST - Spanish not found..." << endl;
+	    cout << "FAIL TEST LANGUAGE - Spanish not found..." << endl;
 	}
-    
 }
