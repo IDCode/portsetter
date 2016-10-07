@@ -1,4 +1,6 @@
 Usage: -p, --port [PORT NUMBER]...
     OPTIONS:
-            -h, --help
+            -h, --help, -?           Print usage
             -p, --port               Listen on a port between 0 and 65536
+            -!, --about              Print about information
+            -v, --version            Print version information
