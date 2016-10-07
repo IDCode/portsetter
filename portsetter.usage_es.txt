@@ -1,4 +1,6 @@
 Uso: -p, --port [Número de puerto] ...
     OPCIONES:
-            -h, --help  
-            -p, --port             Escuchar en un puerto entre 0 y 65536
+            -h, --help, -?           Uso de la impresora
+            -p, --port               Escuchar en un puerto entre 0 y 65536
+            -!, --about              Imprimir la información acerca
+            -v, --version            Información sobre la versión
